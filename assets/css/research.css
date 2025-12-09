@@ -1,0 +1,391 @@
+.research-summary-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 60px;
+    align-items: center;
+    background: white;
+    padding: 0;
+}
+
+.lab-photo-section {
+    padding: 0;
+}
+
+.lab-photo-section {
+    padding: 0;
+    position: relative;
+    height: 100%;
+    min-height: 400px;
+}
+
+.research-image-slider {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    max-height: 450px;
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.research-image-slider .swiper-wrapper {
+    height: 100%;
+}
+
+.research-image-slider .swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.research-image-slider .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.research-image-slider .swiper-pagination {
+    bottom: 20px;
+    z-index: 10;
+}
+
+.research-image-slider .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+}
+
+.research-image-slider .swiper-pagination-bullet-active {
+    background: white;
+    width: 12px;
+    height: 12px;
+}
+
+.research-image-slider .swiper-button-next,
+.research-image-slider .swiper-button-prev {
+    color: white;
+    background: rgba(0, 0, 0, 0.4);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin-top: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.research-image-slider .swiper-button-next:hover,
+.research-image-slider .swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.research-image-slider .swiper-button-next::after,
+.research-image-slider .swiper-button-prev::after {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.research-image-slider .swiper-button-next {
+    right: 10px;
+}
+
+.research-image-slider .swiper-button-prev {
+    left: 10px;
+}
+
+.research-text-section {
+    padding: 40px 60px 40px 0;
+}
+
+.research-heading {
+    font-size: 48px;
+    font-weight: 400;
+    color: #1a365d;
+    margin-bottom: 30px;
+    letter-spacing: -0.5px;
+}
+
+.research-paragraph {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #4a5568;
+    text-align: left;
+}
+
+@media (max-width: 968px) {
+    .research-summary-wrapper {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .lab-photo-section {
+        min-height: 400px;
+    }
+
+    .research-image-slider {
+        border-radius: 20px 20px 0 0;
+        min-height: 400px;
+    }
+
+    .research-text-section {
+        padding: 40px;
+    }
+
+    .research-heading {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .research-text-section {
+        padding: 30px 25px;
+    }
+
+    .research-heading {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .research-paragraph {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+}
+
+.decorative-shape-left {
+    position: absolute;
+    left: -100px;
+    top: 0;
+    width: 300px;
+    height: 500px;
+    background: linear-gradient(135deg, #c5d5e8 0%, #a8bdd4 100%);
+    border-radius: 0 50% 50% 0;
+    z-index: 0;
+}
+
+.questions-main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.questions-header-title {
+    font-size: 38px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.research-question-card {
+    background: white;
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.research-question-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.question-number-label {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.question-text-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.answer-introduction-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #4a5568;
+    margin-bottom: 30px;
+}
+
+.answer-introduction-text .highlighted-answer-text {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.answer-introduction-text .italic-style {
+    font-style: italic;
+}
+
+.diagram-visualization-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(to bottom, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.single-diagram-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+.single-diagram-image img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+.diagram-step-item {
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+
+.diagram-visual-icon {
+    margin-bottom: 15px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.diagram-visual-icon img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.diagram-step-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2d3748;
+    max-width: 150px;
+    margin: 0 auto;
+}
+
+.arrow-connector-symbol {
+    font-size: 32px;
+    color: #667eea;
+    margin: 0 20px;
+}
+
+.question-mark-symbol {
+    font-size: 40px;
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+@media (max-width: 968px) {
+    .questions-header-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .research-question-card {
+        padding: 30px;
+    }
+
+    .question-text-heading {
+        font-size: 20px;
+    }
+
+    .diagram-visualization-area {
+        padding: 30px 20px;
+    }
+
+    .single-diagram-image {
+        max-width: 250px;
+    }
+
+    .single-diagram-image img {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 640px) {
+    .lab-photo-section {
+        min-height: 300px;
+    }
+
+    .research-image-slider {
+        min-height: 300px;
+    }
+
+    .research-image-slider .swiper-button-next,
+    .research-image-slider .swiper-button-prev {
+        width: 30px;
+        height: 30px;
+    }
+
+    .research-image-slider .swiper-button-next::after,
+    .research-image-slider .swiper-button-prev::after {
+        font-size: 14px;
+    }
+
+    .research-text-section {
+        padding: 30px 25px;
+    }
+
+    .research-heading {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .research-paragraph {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .questions-header-title {
+        font-size: 26px;
+    }
+
+    .research-question-card {
+        padding: 25px;
+    }
+
+    .question-text-heading {
+        font-size: 18px;
+    }
+
+    .answer-introduction-text {
+        font-size: 14px;
+    }
+
+    .diagram-visualization-area {
+        padding: 25px 15px;
+    }
+
+    .single-diagram-image {
+        max-width: 200px;
+    }
+
+    .single-diagram-image img {
+        max-width: 120px;
+    }
+}

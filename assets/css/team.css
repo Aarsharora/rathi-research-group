@@ -1,0 +1,428 @@
+ .navigation {
+     padding: 20px;
+ }
+
+ .jl-group-section {
+     max-width: 1200px;
+     margin: 0 auto;
+     position: relative;
+     padding: 40px;
+ }
+
+ .jl-decorative-circle {
+     position: absolute;
+     right: -100px;
+     bottom: -100px;
+     width: 500px;
+     height: 500px;
+     background: linear-gradient(135deg, #d4e7f7 0%, #e8f2f9 100%);
+     border-radius: 50%;
+     z-index: 0;
+     opacity: 0.6;
+ }
+
+ .jl-header-title {
+     text-align: center;
+     font-size: 3rem;
+     font-weight: 700;
+     color: #2c3e50;
+     margin-bottom: 30px;
+ }
+
+ .jl-description-text {
+     text-align: center;
+     max-width: 700px;
+     margin: 0 auto 60px;
+     font-size: 1.05rem;
+     line-height: 1.7;
+     color: #6c757d;
+ }
+
+ .jl-role-title {
+     font-size: 1.8rem;
+     font-weight: 400;
+     color: #495057;
+     margin-bottom: 50px;
+     padding-top: 50px;
+ }
+
+ .jl-member-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     position: relative;
+     z-index: 1;
+     gap: 40px;
+ }
+
+ .jl-members-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+     gap: 40px;
+     justify-content: center;
+     position: relative;
+     z-index: 1;
+     width: 100%;
+     max-width: 1400px;
+     margin: 0 auto;
+ }
+
+ .jl-member-card {
+     background: white;
+     border-radius: 30px;
+     overflow: visible;
+     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+     width: 300px;
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .jl-member-card:hover {
+     transform: translateY(-10px);
+     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+ }
+
+ .jl-image-wrapper {
+     width: 100%;
+     height: 380px;
+     overflow: hidden;
+     border-radius: 30px 30px 0 0;
+     background: #fff;
+ }
+
+ .jl-member-photo {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     border-radius: 30px;
+ }
+
+ .jl-member-info {
+     padding: 30px;
+     text-align: center;
+     background: white;
+     border-radius: 30px
+ }
+
+ .jl-member-name {
+     font-size: 1.5rem;
+     font-weight: 600;
+     color: #2c3e50;
+     margin: 0 0 10px 0;
+ }
+
+ .jl-member-title {
+     font-size: 0.95rem;
+     color: #6c757d;
+     margin-bottom: 5px;
+     line-height: 1.5;
+ }
+
+ .jl-member-pronouns {
+     font-size: 0.9rem;
+     color: #868e96;
+     margin-bottom: 20px;
+ }
+
+ .jl-read-bio-btn {
+     display: block;
+     width: 100%;
+     padding: 14px 30px;
+     background: white;
+     border: 2px solid #e9ecef;
+     border-radius: 50px;
+     font-size: 1rem;
+     font-weight: 500;
+     color: #2c3e50;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     margin-bottom: 15px;
+ }
+
+ .jl-read-bio-btn:hover {
+     background: #f8f9fa;
+     border-color: #dee2e6;
+ }
+
+ .jl-email-icon {
+     display: inline-flex;
+     width: 45px;
+     height: 45px;
+     background: #17a2b8;
+     border-radius: 50%;
+     color: white;
+     align-items: center;
+     justify-content: center;
+     font-size: 1.2rem;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     text-decoration: none;
+ }
+
+ .jl-email-icon:hover {
+     background: #138496;
+     transform: scale(1.1);
+ }
+
+ .jl-bio-details {
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.5s ease, padding 0.5s ease;
+     padding: 0 30px;
+     background: white;
+ }
+
+ .jl-bio-details.jl-show {
+     max-height: 1000px;
+     padding: 0 30px 25px 30px;
+     border-radius: 30px;
+ }
+
+ .jl-bio-text {
+     font-size: 0.95rem;
+     line-height: 1.7;
+     color: #495057;
+     text-align: left;
+     margin-bottom: 15px;
+ }
+
+ .jl-bio-section-title {
+     font-size: 1.1rem;
+     font-weight: 600;
+     color: #2c3e50;
+     margin: 20px 0 10px 0;
+ }
+
+ .jl-bio-list {
+     list-style: none;
+     padding: 0;
+ }
+
+ .jl-bio-list li {
+     font-size: 0.9rem;
+     color: #495057;
+     padding: 5px 0;
+     padding-left: 20px;
+     position: relative;
+ }
+
+ .jl-bio-list li:before {
+     content: "•";
+     position: absolute;
+     left: 0;
+     color: #17a2b8;
+     font-weight: bold;
+ }
+
+ @media (max-width: 768px) {
+     .jl-header-title {
+         font-size: 2rem;
+     }
+
+     .jl-description-text {
+         font-size: 0.95rem;
+         padding: 0 20px;
+     }
+
+     .jl-role-title {
+         font-size: 1.4rem;
+     }
+
+     .jl-member-card {
+         width: 100%;
+         max-width: 380px;
+     }
+
+     .jl-decorative-circle {
+         width: 300px;
+         height: 300px;
+         right: -50px;
+         bottom: -50px;
+     }
+ }
+
+
+ .afb-section {
+     max-width: 1400px;
+     margin: 0 auto;
+     padding: 40px;
+ }
+
+ .afb-title {
+     padding: 40px;
+     text-align: center;
+     font-size: 3rem;
+     font-weight: 700;
+     color: #2c3e50;
+     margin-bottom: 60px;
+ }
+
+ .afb-gallery-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+     gap: 30px;
+     margin-bottom: 40px;
+ }
+
+ .afb-gallery-item {
+     position: relative;
+     border-radius: 25px;
+     overflow: hidden;
+     cursor: pointer;
+     aspect-ratio: 1;
+     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+
+ .afb-gallery-item:hover {
+     transform: translateY(-8px);
+     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+ }
+
+ .afb-gallery-img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+ }
+
+ /* Lightbox Modal */
+ .afb-lightbox {
+     display: none;
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.95);
+     z-index: 1000;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .afb-lightbox.afb-active {
+     display: flex;
+ }
+
+ .afb-lightbox-content {
+     position: relative;
+     max-width: 90%;
+     max-height: 90%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .afb-lightbox-img {
+     max-width: 100%;
+     max-height: 90vh;
+     object-fit: contain;
+     border-radius: 10px;
+ }
+
+ .afb-close-btn {
+     position: absolute;
+     top: 20px;
+     right: 40px;
+     font-size: 40px;
+     color: white;
+     cursor: pointer;
+     z-index: 1001;
+     width: 50px;
+     height: 50px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: rgba(255, 255, 255, 0.1);
+     border-radius: 50%;
+     transition: background 0.3s ease;
+ }
+
+ .afb-close-btn:hover {
+     background: rgba(255, 255, 255, 0.2);
+ }
+
+ .afb-prev-btn,
+ .afb-next-btn {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     font-size: 50px;
+     color: white;
+     cursor: pointer;
+     background: rgba(255, 255, 255, 0.1);
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 50%;
+     transition: background 0.3s ease;
+     user-select: none;
+ }
+
+ .afb-prev-btn:hover,
+ .afb-next-btn:hover {
+     background: rgba(255, 255, 255, 0.2);
+ }
+
+ .afb-prev-btn {
+     left: 40px;
+ }
+
+ .afb-next-btn {
+     right: 40px;
+ }
+
+ .afb-counter {
+     position: absolute;
+     bottom: 30px;
+     left: 50%;
+     transform: translateX(-50%);
+     color: white;
+     font-size: 1.1rem;
+     background: rgba(0, 0, 0, 0.5);
+     padding: 10px 20px;
+     border-radius: 25px;
+ }
+
+ @media (max-width: 768px) {
+     .afb-title {
+         font-size: 2rem;
+     }
+
+     .afb-gallery-grid {
+         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+         gap: 20px;
+     }
+
+     .afb-prev-btn,
+     .afb-next-btn {
+         width: 45px;
+         height: 45px;
+         font-size: 35px;
+     }
+
+     .afb-prev-btn {
+         left: 10px;
+     }
+
+     .afb-next-btn {
+         right: 10px;
+     }
+
+     .afb-close-btn {
+         top: 10px;
+         right: 10px;
+         width: 40px;
+         height: 40px;
+         font-size: 30px;
+     }
+
+     .afb-counter {
+         bottom: 20px;
+         font-size: 0.9rem;
+         padding: 8px 16px;
+     }
+ }
+
+ 

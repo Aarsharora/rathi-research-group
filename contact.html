@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact || Rathi Lab</title>
+    <link rel="Icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/contact.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <div class="navigation">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img
+                        src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid"
+                        style="width: 90px;" alt="">R.R.G</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="research.html">Research</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="news.html">News</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="collabration.html">Collaboration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="publication.html">Publication</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="team.html">Team</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="lab_facility.html">Lab Facility</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gallry.html">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="breadcrumb-section">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                <a href="index.html" class="breadcrumb-item">
+                    <svg class="home-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    Home
+                </a>
+
+                <span class="breadcrumb-separator">›</span>
+
+                <a href="contact.html" class="breadcrumb-item">
+                    Contact
+                </a>
+            </nav>
+
+            <h1 class="page-title text-center">Contact Us</h1>
+            <p class="page-description text-center">Have questions or want to connect with us? This page provides
+                contact details, communication channels, and inquiry options. Feel free to reach out for research
+                collaborations, academic discussions, or general information.</p>
+        </div>
+    </div>
+    <div class="contact-container">
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+
+                <div class="info-item">
+                    <h3>📍 Address</h3>
+                    <p>
+                        Rathi Lab<br>
+                        Department of Chemistry<br>
+                        University Name<br>
+                        City, State - 000000
+                    </p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📧 Email</h3>
+                    <p><a href="mailto:rathi.lab@university.edu">rathi.lab@university.edu</a></p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📞 Phone</h3>
+                    <p>+91 XXX XXX XXXX</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>🕐 Office Hours</h3>
+                    <p>
+                        Monday - Friday: 9:00 AM - 5:00 PM<br>
+                        Weekend: By Appointment
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Send a Message</h2>
+                <div id="contactAlert" class="text-center" style="display:none;"></div>
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <input type="text" id="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" required></textarea>
+                </div>
+
+                <button class="submit-btn" id="contactSubmitBtn">Send Message</button>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <h2>Our Location</h2>
+            <div class="map-container">
+                <iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                    src="https://maps.google.com/maps?q=New%20Delhi%2C%20Delhi%2C%20India&z=12&output=embed">
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-top" id="scrollTopBtn">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <footer class="footer-section">
+        <div class="footer-content">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img class="logo-icon" src="assets/img/second logo 1.png">
+
+                </img>
+                <div class="logo-text">Rathi Research Group</div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="research.html">Research</a></li>
+                <li><a href="publication.html">Publications</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="gallry.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <!-- Email Icon -->
+            <div class="email-icon">
+                <a href="mailto:rathi@mit.edu" title="Email Us">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="footer-bottom">
+                <!-- MIT Logo -->
+                <!-- Copyright -->
+                <div class="copyright">
+                    © 2025 <strong>Rathi Research Group</strong>. All rights reserved.
+                    Proudly created by <strong><a href="https://arsharora.netlify.app/"
+                            style="text-decoration: none; color: inherit;">Arsh Arora</strong></a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="assets/js/Main.js"></script>
+
+
+    <script>
+        // ============ Contact API Submission ============
+        document.addEventListener('DOMContentLoaded', () => {
+            const ENDPOINTS = ['http://localhost:3000/contact', 'http://localhost:3000/api/contact'];
+            const btn = document.getElementById('contactSubmitBtn');
+            const alertBox = document.getElementById('contactAlert');
+
+            function showAlert(message, isError = false) {
+                if (!alertBox) return;
+                alertBox.style.display = 'block';
+                alertBox.style.color = isError ? '#b00020' : '#0d6efd';
+                alertBox.textContent = message;
+            }
+
+            function clearAlert() {
+                if (alertBox) {
+                    alertBox.style.display = 'none';
+                    alertBox.textContent = '';
+                }
+            }
+
+            async function submitContact() {
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                if (!name || !email || !subject || !message) {
+                    showAlert('Please fill in all required fields.', true);
+                    return;
+                }
+
+                clearAlert();
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = 'Sending...';
+                }
+
+                const payload = { name, email, subject, message };
+
+                try {
+                    let res;
+                    for (const ep of ENDPOINTS) {
+                        res = await fetch(ep, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (res.ok) break;
+                    }
+
+                    if (!res || !res.ok) {
+                        throw new Error(`Failed to submit (status ${res ? res.status : 'no response'})`);
+                    }
+
+                    showAlert('Thank you! We received your message.');
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('subject').value = '';
+                    document.getElementById('message').value = '';
+                } catch (err) {
+                    console.error('Contact submit error', err);
+                    showAlert(`Submission failed: ${err.message}`, true);
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = 'Send Message';
+                    }
+                }
+            }
+
+            if (btn) {
+                btn.addEventListener('click', submitContact);
+            }
+        });
+    </script>
+    <script>
+        // ============================================
+        // Sticky Navigation on Scroll
+        // ============================================
+        window.addEventListener('scroll', function () {
+            const navigation = document.querySelector('.navigation');
+
+            if (window.scrollY > 200) {
+                navigation.classList.add('sticky');
+                document.body.style.paddingTop = navigation.offsetHeight + 'px';
+            } else {
+                navigation.classList.remove('sticky');
+                document.body.style.paddingTop = '0';
+            }
+        });
+
+        // ============================================
+        // Active Page Highlight
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ============================================
+        // Close Mobile Menu on Link Click
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (navbarCollapse.classList.contains('show')) {
+                        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                            toggle: false
+                        });
+                        bsCollapse.hide();
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script src="assets/js/animations.js"></script>
+</body>
+
+</html>
