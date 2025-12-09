@@ -20,8 +20,9 @@
     <div class="navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html"><img src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png"
-                        class="img-fluid" style="width: 90px;" alt="">R.R.G </a>
+                <a class="navbar-brand" href="index.html"><img
+                        src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid"
+                        style="width: 90px;" alt="">R.R.G </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -66,7 +67,8 @@
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <a href="index.html" class="breadcrumb-item">
                     <svg class="home-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     Home
                 </a>
@@ -79,9 +81,10 @@
             </nav>
 
             <h1 class="page-title text-center">Group Members</h1>
-            <p class="page-description text-center">In the Johnson Lab, we recognize that diversity of thought, background and
-            experience drive innovation and learning. Thus, we strive to foster an environment
-            that supports the training, education and success of all scientists in our group.</p>
+            <p class="page-description text-center">In the Johnson Lab, we recognize that diversity of thought,
+                background and
+                experience drive innovation and learning. Thus, we strive to foster an environment
+                that supports the training, education and success of all scientists in our group.</p>
         </div>
     </div>
 
@@ -194,7 +197,8 @@
                 <!-- Copyright -->
                 <div class="copyright">
                     © 2025 <strong>Rathi Research Group</strong>. All rights reserved.
-                    Proudly created by <strong><a href="https://arsharora.netlify.app/" style="text-decoration: none; color: inherit;">Arsh Arora</strong></a>.
+                    Proudly created by <strong><a href="https://arsharora.netlify.app/"
+                            style="text-decoration: none; color: inherit;">Arsh Arora</strong></a>.
                 </div>
             </div>
         </div>
@@ -270,7 +274,7 @@
     <script>
         // ============ Team API Rendering (same pattern as news) ============
         document.addEventListener('DOMContentLoaded', () => {
-            const ENDPOINTS = ["http://localhost:3000/team", "http://localhost:3000/api/team"];
+            const ENDPOINTS = ["https://lab-backend-awux.onrender.com/team", "https://lab-backend-awux.onrender.com/api/team"];
 
             const CATEGORY_IDS = {
                 'Principal Investigator': 'category-principal-investigator',
@@ -288,10 +292,17 @@
             function buildImageUrl(imagePath) {
                 const placeholder = 'https://via.placeholder.com/400x400?text=No+Image';
                 if (!imagePath) return placeholder;
-                const trimmed = imagePath.trim();
+                let trimmed = String(imagePath).trim();
+
+                // Replace localhost with remote URL if present
+                if (trimmed.includes('localhost:3000')) {
+                    trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, 'https://lab-backend-awux.onrender.com/');
+                }
+
                 if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
+
                 const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
-                return `http://localhost:3000/${normalized}`;
+                return `https://lab-backend-awux.onrender.com/${normalized}`;
             }
 
             function toggleBio(id) {

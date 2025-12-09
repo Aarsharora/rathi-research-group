@@ -15,10 +15,12 @@
 
 <body>
     <!-- Navigation -->
-     <div class="navigation">
+    <div class="navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html"><img src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid" style="width: 90px;" alt="">R.R.G</a>
+                <a class="navbar-brand" href="index.html"><img
+                        src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid"
+                        style="width: 90px;" alt="">R.R.G</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -64,7 +66,8 @@
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <a href="index.html" class="breadcrumb-item">
                     <svg class="home-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     Home
                 </a>
@@ -77,7 +80,9 @@
             </nav>
 
             <h1 class="page-title text-center">Research</h1>
-            <p class="page-description text-center">This research page highlights our ongoing projects, published work, and innovative studies aimed at advancing knowledge in our field. Explore detailed insights, methodologies, findings, and collaborations that drive our research forward.</p>
+            <p class="page-description text-center">This research page highlights our ongoing projects, published work,
+                and innovative studies aimed at advancing knowledge in our field. Explore detailed insights,
+                methodologies, findings, and collaborations that drive our research forward.</p>
         </div>
     </div>
 
@@ -198,7 +203,7 @@
             </div>
 
             <!-- Navigation Menu -->
-           <ul class="nav-menu">
+            <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="research.html">Research</a></li>
                 <li><a href="publication.html">Publications</a></li>
@@ -218,9 +223,10 @@
             <div class="footer-bottom">
                 <!-- MIT Logo -->
                 <!-- Copyright -->
-               <div class="copyright">
+                <div class="copyright">
                     © 2025 <strong>Rathi Research Group</strong>. All rights reserved.
-                    Proudly created by <strong><a href="https://arsharora.netlify.app/" style="text-decoration: none; color: inherit;">Arsh Arora</strong></a>.
+                    Proudly created by <strong><a href="https://arsharora.netlify.app/"
+                            style="text-decoration: none; color: inherit;">Arsh Arora</strong></a>.
                 </div>
             </div>
         </div>
@@ -229,80 +235,80 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="assets/js/Main.js"></script>
     <script>
-// ============================================
-// Research Image Slider
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    const researchSlider = new Swiper('.research-image-slider', {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        loop: true,
-        autoplay: {
-            delay: 4000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
-        },
-    });
-});
+        // ============================================
+        // Research Image Slider
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const researchSlider = new Swiper('.research-image-slider', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+            });
+        });
 
-// ============================================
-// Sticky Navigation on Scroll
-// ============================================
-window.addEventListener('scroll', function() {
-    const navigation = document.querySelector('.navigation');
-    
-    if (window.scrollY > 200) {
-        navigation.classList.add('sticky');
-        document.body.style.paddingTop = navigation.offsetHeight + 'px';
-    } else {
-        navigation.classList.remove('sticky');
-        document.body.style.paddingTop = '0';
-    }
-});
+        // ============================================
+        // Sticky Navigation on Scroll
+        // ============================================
+        window.addEventListener('scroll', function () {
+            const navigation = document.querySelector('.navigation');
 
-// ============================================
-// Active Page Highlight
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    const currentPage = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// ============================================
-// Close Mobile Menu on Link Click
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (navbarCollapse.classList.contains('show')) {
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-                    toggle: false
-                });
-                bsCollapse.hide();
+            if (window.scrollY > 200) {
+                navigation.classList.add('sticky');
+                document.body.style.paddingTop = navigation.offsetHeight + 'px';
+            } else {
+                navigation.classList.remove('sticky');
+                document.body.style.paddingTop = '0';
             }
         });
-    });
-});
+
+        // ============================================
+        // Active Page Highlight
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ============================================
+        // Close Mobile Menu on Link Click
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (navbarCollapse.classList.contains('show')) {
+                        const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                            toggle: false
+                        });
+                        bsCollapse.hide();
+                    }
+                });
+            });
+        });
 
     </script>
     <script src="assets/js/animations.js"></script>

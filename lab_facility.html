@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +13,14 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/animations.css">
 </head>
+
 <body>
     <div class="navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html"><img src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid" style="width: 90px;" alt="">R.R.G</a>
+                <a class="navbar-brand" href="index.html"><img
+                        src="assets/img/Screenshot_2025-11-12_131002-removebg-preview.png" class="img-fluid"
+                        style="width: 90px;" alt="">R.R.G</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -61,7 +65,8 @@
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <a href="index.html" class="breadcrumb-item">
                     <svg class="home-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     Home
                 </a>
@@ -71,7 +76,9 @@
                 </a>
             </nav>
             <h1 class="page-title text-center">Lab Facility</h1>
-            <p class="page-description text-center">Explore our state-of-the-art laboratory facilities equipped with cutting-edge equipment and technology. Our lab provides an ideal environment for innovative research and scientific discovery.</p>
+            <p class="page-description text-center">Explore our state-of-the-art laboratory facilities equipped with
+                cutting-edge equipment and technology. Our lab provides an ideal environment for innovative research and
+                scientific discovery.</p>
         </div>
     </div>
 
@@ -125,23 +132,29 @@
         // ============ Lab Facility API Rendering ============
         document.addEventListener('DOMContentLoaded', () => {
             const ENDPOINTS = [
-                'http://localhost:3000/api/lab-facility',
-                'http://localhost:3000/lab-facility',
-                'http://localhost:3000/api/labfacility',
-                'http://localhost:3000/labfacility',
-                'http://localhost:3000/api/lab-facilities',
-                'http://localhost:3000/lab-facilities'
+                'https://lab-backend-awux.onrender.com/api/lab-facility',
+                'https://lab-backend-awux.onrender.com/lab-facility',
+                'https://lab-backend-awux.onrender.com/api/labfacility',
+                'https://lab-backend-awux.onrender.com/labfacility',
+                'https://lab-backend-awux.onrender.com/api/lab-facilities',
+                'https://lab-backend-awux.onrender.com/lab-facilities'
             ];
 
             const container = document.getElementById('facilityContainer');
 
             function buildImageUrl(imagePath) {
-                const placeholder = 'https://via.placeholder.com/900x550?text=No+Image';
+                const placeholder = 'https://via.placeholder.com/800x500?text=No+Image'; // Larger placeholder for facilities
                 if (!imagePath) return placeholder;
-                const trimmed = imagePath.trim();
+                let trimmed = String(imagePath).trim();
+
+                // Replace localhost with remote URL if present
+                if (trimmed.includes('localhost:3000')) {
+                    trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, 'https://lab-backend-awux.onrender.com/');
+                }
+
                 if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
                 const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
-                return `http://localhost:3000/${normalized}`;
+                return `https://lab-backend-awux.onrender.com/${normalized}`;
             }
 
             function extractArray(data) {
@@ -246,7 +259,7 @@
                                 <p style="font-size: 14px; color: #666; margin-bottom: 5px;">Error: ${err.message}</p>
                                 <p style="font-size: 12px; color: #999; margin-top: 10px;">
                                     Please check:<br>
-                                    1. Server is running on localhost:3000<br>
+                                    1. Remote server is accessible (lab-backend-awux.onrender.com)<br>
                                     2. API endpoint exists (try /api/lab-facility or /lab-facility)<br>
                                     3. CORS is enabled on server<br>
                                     4. Check browser console for more details
@@ -349,11 +362,11 @@
             const itemWrappers = document.querySelectorAll('.facility-item-wrapper');
             itemWrappers.forEach(wrapper => {
                 observer.observe(wrapper);
-                
+
                 // Observe image and text content separately
                 const imageBox = wrapper.querySelector('.facility-image-box');
                 const textContent = wrapper.querySelector('.facility-text-content');
-                
+
                 if (imageBox) {
                     observer.observe(imageBox);
                 }

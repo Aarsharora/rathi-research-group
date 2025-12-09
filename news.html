@@ -66,7 +66,8 @@
             <nav class="breadcrumb-nav" aria-label="Breadcrumb">
                 <a href="index.html" class="breadcrumb-item">
                     <svg class="home-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     Home
                 </a>
@@ -79,7 +80,9 @@
             </nav>
 
             <h1 class="page-title text-center">News & Updates</h1>
-            <p class="page-description text-center">Stay updated with the latest news, announcements, and achievements related to our work. This page features important updates, event highlights, project milestones, and insights into our ongoing research and activities.</p>
+            <p class="page-description text-center">Stay updated with the latest news, announcements, and achievements
+                related to our work. This page features important updates, event highlights, project milestones, and
+                insights into our ongoing research and activities.</p>
         </div>
     </div>
     <div class="news-container">
@@ -160,11 +163,11 @@
             headlinesScroll.innerHTML = `<div class="headline-item">Loading headlines...</div>`;
 
             try {
-                let endpointUsed = 'http://localhost:3000/news';
+                let endpointUsed = 'https://lab-backend-awux.onrender.com/news';
                 let response = await fetch(endpointUsed);
 
                 if (!response.ok && response.status === 404) {
-                    endpointUsed = 'http://localhost:3000/api/news';
+                    endpointUsed = 'https://lab-backend-awux.onrender.com/api/news';
                     response = await fetch(endpointUsed);
                 }
 
@@ -258,55 +261,53 @@
         let visibleCount = 3; // pehle 3 articles show honge
 
         function buildImageUrl(imagePath) {
-            const placeholder = 'https://via.placeholder.com/400x250?text=No+Image';
-
+            const placeholder = 'https://via.placeholder.com/600x400?text=No+Image';
             if (!imagePath) return placeholder;
+            let trimmed = String(imagePath).trim();
 
-            const trimmed = imagePath.trim();
-
-            // Already an absolute URL or base64
-            if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
-                return trimmed;
+            // Replace localhost with remote URL if present
+            if (trimmed.includes('localhost:3000')) {
+                trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, 'https://lab-backend-awux.onrender.com/');
             }
 
+            if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
             const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
-
-            return `http://localhost:3000/${normalized}`;
+            return `https://lab-backend-awux.onrender.com/${normalized}`;
         }
 
         async function loadNews() {
             const newsContainer = document.getElementById("newsContainer");
-            
+
             // Show loading message
             if (newsContainer) {
                 newsContainer.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Loading news...</p></div>';
             }
-            
+
             try {
                 // Try /news endpoint first, then fallback to /api/news
-                let res = await fetch("http://localhost:3000/news");
-                let endpointUsed = "http://localhost:3000/news";
-                
+                let res = await fetch("https://lab-backend-awux.onrender.com/news");
+                let endpointUsed = "https://lab-backend-awux.onrender.com/news";
+
                 console.log("Trying endpoint:", endpointUsed);
                 console.log("Response status:", res.status);
                 console.log("Response ok:", res.ok);
-                
+
                 // If 404, try /api/news as fallback
                 if (!res.ok && res.status === 404) {
                     console.log("404 on /news, trying /api/news...");
-                    endpointUsed = "http://localhost:3000/api/news";
+                    endpointUsed = "https://lab-backend-awux.onrender.com/api/news";
                     res = await fetch(endpointUsed);
                     console.log("Fallback endpoint:", endpointUsed);
                     console.log("Response status:", res.status);
                     console.log("Response ok:", res.ok);
                 }
-                
+
                 if (!res.ok) {
                     throw new Error(`Server returned ${res.status}: ${res.statusText} from ${endpointUsed}`);
                 }
-                
+
                 console.log(" Successfully connected to:", endpointUsed);
-                
+
                 const data = await res.json();
                 console.log("=== API RESPONSE ===");
                 console.log("Full data:", data);
@@ -316,10 +317,10 @@
                     console.log("Object keys:", Object.keys(data));
                 }
                 console.log("===================");
-                
+
                 // Extract array from response
                 let newsArray = [];
-                
+
                 if (Array.isArray(data)) {
                     // Direct array
                     newsArray = data;
@@ -347,18 +348,18 @@
                     console.error(" Unexpected data type:", typeof data);
                     newsArray = [];
                 }
-                
+
                 // Process the news array
                 if (Array.isArray(newsArray) && newsArray.length > 0) {
                     console.log(" Processing", newsArray.length, "news items");
-                    
+
                     // Sort by date (latest first) - only if array exists
                     allNews = newsArray.sort((a, b) => {
                         const dateA = new Date(a.date || 0);
                         const dateB = new Date(b.date || 0);
                         return dateB - dateA;
                     });
-                    
+
                     console.log(" Sorted news:", allNews);
                     renderNews();
                 } else {
@@ -381,7 +382,7 @@
                     message: err.message,
                     stack: err.stack
                 });
-                
+
                 if (newsContainer) {
                     newsContainer.innerHTML = `
                         <div style="text-align: center; padding: 40px; color: #d32f2f;">
@@ -389,7 +390,7 @@
                             <p style="font-size: 14px; color: #666; margin-bottom: 5px;">Error: ${err.message}</p>
                             <p style="font-size: 12px; color: #999; margin-top: 10px;">
                                 Please check:<br>
-                                1. Server is running on localhost:3000<br>
+                                1. Server is running (lab-backend-awux.onrender.com)<br>
                                 2. API endpoint is /news (not /api/news)<br>
                                 3. CORS is enabled on server<br>
                                 4. Check browser console for more details
@@ -404,12 +405,12 @@
 
         function renderNews() {
             const newsContainer = document.getElementById("newsContainer");
-            
+
             if (!newsContainer) {
                 console.error("newsContainer element not found!");
                 return;
             }
-            
+
             if (!allNews || allNews.length === 0) {
                 console.warn("allNews is empty");
                 newsContainer.innerHTML = `
@@ -421,7 +422,7 @@
                 if (loadMoreBtn) loadMoreBtn.style.display = "none";
                 return;
             }
-            
+
             console.log(" Rendering", allNews.length, "news items");
             newsContainer.innerHTML = ""; // clear previous content
 
@@ -430,7 +431,7 @@
 
             visibleNews.forEach((item, index) => {
                 console.log(`Rendering item ${index + 1}:`, item);
-                
+
                 // Safe date formatting
                 let formattedDate = "Date not available";
                 try {
@@ -483,12 +484,12 @@
         }
 
         // Wait for DOM to be ready
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             console.log("🚀 DOM loaded, starting to fetch news...");
-            
+
             // Load news on page load
             loadNews();
-            
+
             // Set up load more button listener
             const loadMoreBtn = document.getElementById("loadMoreBtn");
             if (loadMoreBtn) {

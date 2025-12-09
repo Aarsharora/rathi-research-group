@@ -162,7 +162,7 @@
         // Gallery API Integration
         // ==============================
 
-        const GALLERY_API_BASE = 'http://localhost:3000';
+        const GALLERY_API_BASE = 'https://lab-backend-awux.onrender.com';
         const GALLERY_ENDPOINTS = ['/gallery', '/api/gallery'];
 
         let galleryData = [];
@@ -171,17 +171,16 @@
         let filteredImages = [];
 
         function buildImageUrl(imagePath) {
-            const placeholder = 'https://via.placeholder.com/800x500?text=No+Image';
-
+            const placeholder = 'https://via.placeholder.com/800x600?text=No+Image';
             if (!imagePath) return placeholder;
+            let trimmed = String(imagePath).trim();
 
-            const trimmed = String(imagePath).trim();
-
-            // Already absolute URL or data URI
-            if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
-                return trimmed;
+            // Replace localhost with remote URL if present
+            if (trimmed.includes('localhost:3000')) {
+                trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, GALLERY_API_BASE + '/');
             }
 
+            if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
             const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
             return `${GALLERY_API_BASE}/${normalized}`;
         }
@@ -276,8 +275,8 @@
                 <div class="gallery-item" data-category="${item.category}" onclick="openModal(${index})">
                     <span class="gallery-category">
                         ${item.category
-                            ? item.category.charAt(0).toUpperCase() + item.category.slice(1)
-                            : 'Gallery'}
+                    ? item.category.charAt(0).toUpperCase() + item.category.slice(1)
+                    : 'Gallery'}
                     </span>
                     <img src="${item.image}" alt="${item.title}" class="gallery-image"
                          onerror="this.src='https://via.placeholder.com/800x500?text=Image+Not+Available'">
