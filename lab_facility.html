@@ -132,12 +132,12 @@
         // ============ Lab Facility API Rendering ============
         document.addEventListener('DOMContentLoaded', () => {
             const ENDPOINTS = [
-                'https://lab-backend-awux.onrender.com/api/lab-facility',
-                'https://lab-backend-awux.onrender.com/lab-facility',
-                'https://lab-backend-awux.onrender.com/api/labfacility',
-                'https://lab-backend-awux.onrender.com/labfacility',
                 'https://lab-backend-awux.onrender.com/api/lab-facilities',
-                'https://lab-backend-awux.onrender.com/lab-facilities'
+                'https://lab-backend-awux.onrender.com/lab-facilities',
+                'https://lab-backend-awux.onrender.com/api/labfacilities',
+                'https://lab-backend-awux.onrender.com/labfacilities',
+                'https://lab-backend-awux.onrender.com/api/lab-facility',
+                'https://lab-backend-awux.onrender.com/lab-facility'
             ];
 
             const container = document.getElementById('facilityContainer');
@@ -159,10 +159,25 @@
 
             function extractArray(data) {
                 if (Array.isArray(data)) return data;
+
+                // Common named keys
                 if (data && Array.isArray(data.data)) return data.data;
                 if (data && Array.isArray(data.facilities)) return data.facilities;
+                if (data && Array.isArray(data.labFacilities)) return data.labFacilities;
+                if (data && Array.isArray(data.lab_facilities)) return data.lab_facilities;
                 if (data && Array.isArray(data.items)) return data.items;
                 if (data && Array.isArray(data.results)) return data.results;
+
+                // Dynamic search: find ANY key that is an array
+                if (data && typeof data === 'object') {
+                    for (const key in data) {
+                        if (Array.isArray(data[key])) {
+                            console.log(`Found array in key: ${key}`);
+                            return data[key];
+                        }
+                    }
+                }
+
                 return [];
             }
 
