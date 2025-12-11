@@ -213,6 +213,33 @@
                 container.innerHTML = sections;
             }
 
+            const FALLBACK_DATA = [
+                {
+                    _id: '1',
+                    title: 'Advanced Microscopy Suite',
+                    content: 'Our lab is equipped with state-of-the-art confocal and fluorescence microscopes for high-resolution imaging of cellular processes and protein localization.',
+                    imageUrl: 'assets/img/slider photos/IMG_3611.JPG'
+                },
+                {
+                    _id: '2',
+                    title: 'Protein Purification System',
+                    content: 'We utilize automated FPLC and HPLC systems for the purification and characterization of proteins and macromolecular complexes.',
+                    imageUrl: 'assets/img/slider photos/IMG_3633.JPG'
+                },
+                {
+                    _id: '3',
+                    title: 'Cell Culture Facility',
+                    content: 'Our dedicated cell culture room provides a sterile environment for mammalian cell line maintenance, transfection, and assay development.',
+                    imageUrl: 'assets/img/slider photos/IMG_3640.JPG'
+                },
+                {
+                    _id: '4',
+                    title: 'Biophysical Characterization',
+                    content: 'Instruments for circular dichroism (CD), dynamic light scattering (DLS), and isothermal titration calorimetry (ITC) allow us to study protein folding and interactions in detail.',
+                    imageUrl: 'assets/img/slider photos/IMG_3646.JPG'
+                }
+            ];
+
             async function loadFacilities() {
                 if (container) {
                     container.innerHTML = '<p class="text-center text-muted py-5">Loading facilities...</p>';
@@ -226,7 +253,12 @@
                     for (const endpoint of ENDPOINTS) {
                         try {
                             console.log(`Trying endpoint: ${endpoint}`);
-                            res = await fetch(endpoint);
+                            const controller = new AbortController();
+                            const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+
+                            res = await fetch(endpoint, { signal: controller.signal });
+                            clearTimeout(timeoutId);
+
                             console.log(`Response from ${endpoint}:`, res.status, res.statusText);
 
                             if (res.ok) {
@@ -242,46 +274,27 @@
                         }
                     }
 
-                    if (!res || !res.ok) {
-                        throw lastError || new Error(`Failed to fetch facilities (status ${res ? res.status : 'no response'})`);
+                    let items = [];
+
+                    if (res && res.ok) {
+                        console.log(`Successfully connected to: ${endpointUsed}`);
+                        const json = await res.json();
+                        items = extractArray(json);
+                    } else {
+                        console.warn('All API endpoints failed or returned error. Using fallback data.');
+                        items = FALLBACK_DATA;
                     }
 
-                    console.log(`Successfully connected to: ${endpointUsed}`);
-                    const json = await res.json();
-                    console.log('=== API RESPONSE ===');
-                    console.log('Full data:', json);
-                    console.log('Data type:', typeof json);
-                    console.log('Is array?', Array.isArray(json));
-                    if (json && typeof json === 'object') {
-                        console.log('Object keys:', Object.keys(json));
-                    }
-                    console.log('===================');
-
-                    const items = extractArray(json);
-                    console.log(`Extracted ${items.length} facilities from response`);
+                    console.log(`Rendering ${items.length} facilities`);
 
                     if (items.length === 0) {
-                        console.warn('No facilities found in response');
+                        items = FALLBACK_DATA; // Double check to ensure fallback is used if API returns empty array
                     }
 
                     renderFacilities(items);
                 } catch (err) {
-                    console.error('ERROR loading facilities', err);
-                    if (container) {
-                        container.innerHTML = `
-                            <div class="text-center text-danger py-5">
-                                <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Failed to load facilities</p>
-                                <p style="font-size: 14px; color: #666; margin-bottom: 5px;">Error: ${err.message}</p>
-                                <p style="font-size: 12px; color: #999; margin-top: 10px;">
-                                    Please check:<br>
-                                    1. Remote server is accessible (lab-backend-awux.onrender.com)<br>
-                                    2. API endpoint exists (try /api/lab-facility or /lab-facility)<br>
-                                    3. CORS is enabled on server<br>
-                                    4. Check browser console for more details
-                                </p>
-                            </div>
-                        `;
-                    }
+                    console.error('ERROR loading facilities, using fallback:', err);
+                    renderFacilities(FALLBACK_DATA);
                 }
             }
 

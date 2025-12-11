@@ -114,7 +114,7 @@
  .oval-2 {
      width: 380px;
      height: 480px;
-     background: rgba(255, 255, 255, 0.25);
+     background: rgba(255, 253, 253, 3.0);
      left: 50%;
      top: 50%;
      transform: translate(-50%, -50%);
@@ -151,6 +151,7 @@
  }
 
  .main-title {
+     color: #007C76;
      font-size: 62px;
      font-weight: 300;
      line-height: 1;
@@ -159,6 +160,7 @@
  }
 
  .lab-name {
+     color: #2c3e50;
      font-size: 72px;
      font-weight: 200;
      line-height: 1.2;

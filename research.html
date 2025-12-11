@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/research.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/lab_facility.css">
 </head>
 
 <body>
@@ -127,63 +128,63 @@
         </div>
     </div>
 
-    <div class="questions-main-container">
-        <h1 class="questions-header-title">Questions Central to Our Research</h1>
+    <div class="facility-section">
+        <div class="facility-section-title animate">
+            <h2>Questions Central to Our Research</h2>
+        </div>
 
         <!-- Question 1 -->
-        <div class="research-question-card">
-            <span class="question-number-label">QUESTION 1</span>
-            <h2 class="question-text-heading">How do specialized J Domain Protein (JDP) chaperones suppress protein
-                aggregation?</h2>
-
-            <p class="answer-introduction-text">
-                To answer <span class="highlighted-answer-text">Question 1</span>, our lab employs a broad array of
-                biochemical and biophysical methods to better understand the relationship between JDP structural
-                features, chemical features, and aggregation suppression activities <span class="italic-style">in
-                    vitro</span> and in cells.
-            </p>
-
-            <div class="diagram-visualization-area">
-                <div class="single-diagram-image">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3655/3655580.png" alt="Research Diagram">
-                </div>
+        <div class="facility-item-wrapper animate">
+            <div class="facility-image-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/3655/3655580.png" alt="Research Diagram"
+                    style="width: 60%; margin: 0 auto; display: block;">
+            </div>
+            <div class="facility-text-content">
+                <span class="question-number-label">QUESTION 1</span>
+                <h3>How do specialized J Domain Protein (JDP) chaperones suppress protein aggregation?</h3>
+                <p>
+                    To answer <span style="font-weight: 600; color: #667eea;">Question 1</span>, our lab employs a broad
+                    array of
+                    biochemical and biophysical methods to better understand the relationship between JDP structural
+                    features, chemical features, and aggregation suppression activities <i>in vitro</i> and in cells.
+                </p>
             </div>
         </div>
 
         <!-- Question 2 -->
-        <div class="research-question-card">
-            <span class="question-number-label">QUESTION 2</span>
-            <h2 class="question-text-heading">What are the structural mechanisms underlying chaperone-client
-                interactions?</h2>
-
-            <p class="answer-introduction-text">
-                To answer <span class="highlighted-answer-text">Question 2</span>, we utilize advanced structural
-                biology techniques including cryo-EM and X-ray crystallography to visualize chaperone-substrate
-                complexes and understand how conformational changes drive substrate recognition and processing.
-            </p>
-
-            <div class="diagram-visualization-area">
-                <div class="single-diagram-image">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2913/2913133.png" alt="Research Diagram">
-                </div>
+        <div class="facility-item-wrapper animate">
+            <div class="facility-image-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/2913/2913133.png" alt="Research Diagram"
+                    style="width: 60%; margin: 0 auto; display: block;">
+            </div>
+            <div class="facility-text-content">
+                <span class="question-number-label">QUESTION 2</span>
+                <h3>What are the structural mechanisms underlying chaperone-client interactions?</h3>
+                <p>
+                    To answer <span style="font-weight: 600; color: #667eea;">Question 2</span>, we utilize advanced
+                    structural
+                    biology techniques including cryo-EM and X-ray crystallography to visualize chaperone-substrate
+                    complexes and understand how conformational changes drive substrate recognition and processing.
+                </p>
             </div>
         </div>
 
         <!-- Question 3 -->
-        <div class="research-question-card">
-            <span class="question-number-label">QUESTION 3</span>
-            <h2 class="question-text-heading">Can we engineer enhanced chaperones for therapeutic applications?</h2>
-
-            <p class="answer-introduction-text">
-                To answer <span class="highlighted-answer-text">Question 3</span>, we apply protein engineering
-                strategies and high-throughput screening methods to develop optimized chaperone variants with improved
-                stability, substrate specificity, and cellular delivery for treating neurodegenerative diseases.
-            </p>
-
-            <div class="diagram-visualization-area">
-                <div class="single-diagram-image">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3050/3050155.png" alt="Research Diagram">
-                </div>
+        <div class="facility-item-wrapper animate">
+            <div class="facility-image-box">
+                <img src="https://cdn-icons-png.flaticon.com/512/3050/3050155.png" alt="Research Diagram"
+                    style="width: 60%; margin: 0 auto; display: block;">
+            </div>
+            <div class="facility-text-content">
+                <span class="question-number-label">QUESTION 3</span>
+                <h3>Can we engineer enhanced chaperones for therapeutic applications?</h3>
+                <p>
+                    To answer <span style="font-weight: 600; color: #667eea;">Question 3</span>, we apply protein
+                    engineering
+                    strategies and high-throughput screening methods to develop optimized chaperone variants with
+                    improved
+                    stability, substrate specificity, and cellular delivery for treating neurodegenerative diseases.
+                </p>
             </div>
         </div>
     </div>
@@ -310,6 +311,43 @@
             });
         });
 
+        // ============================================
+        // Scroll Animation (From Lab Facility)
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.facility-section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = '0.2s';
+                observer.observe(section);
+            });
+
+            const itemWrappers = document.querySelectorAll('.facility-item-wrapper');
+            itemWrappers.forEach(wrapper => {
+                observer.observe(wrapper);
+                const imageBox = wrapper.querySelector('.facility-image-box');
+                const textContent = wrapper.querySelector('.facility-text-content');
+                if (imageBox) observer.observe(imageBox);
+                if (textContent) observer.observe(textContent);
+            });
+
+            const sectionTitles = document.querySelectorAll('.facility-section-title');
+            sectionTitles.forEach(title => {
+                observer.observe(title);
+            });
+        });
     </script>
     <script src="assets/js/animations.js"></script>
 </body>
