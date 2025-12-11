@@ -289,17 +289,74 @@
                 Object.values(CATEGORY_IDS).map(id => [id, document.getElementById(id)])
             );
 
+            const FALLBACK_TEAM_DATA = [
+                {
+                    name: 'Dr. Sarah Rathi',
+                    category: 'Principal Investigator',
+                    imageUrl: 'assets/img/rathi%20sir.jpg',
+                    email: 'rathi@mit.edu',
+                    bio: 'Dr. Rathi leads the research group with a focus on protein folding and quality control mechanisms. She received her PhD from Stanford University.'
+                },
+                {
+                    name: 'Michael Chen',
+                    category: 'Senior Scientist',
+                    imageUrl: 'assets/img/man.jpg',
+                    email: 'chen@mit.edu',
+                    bio: 'Michael specializes in structural biology and cryo-EM. He manages the day-to-day operations of the lab.'
+                },
+                {
+                    name: 'Priya Patel',
+                    category: 'Postdoctoral Researchers',
+                    imageUrl: 'assets/img/women.jpg',
+                    email: 'ppatel@mit.edu',
+                    bio: 'Priya investigates the role of chaperones in neurodegenerative diseases.'
+                },
+                {
+                    name: 'David Kim',
+                    category: 'Doctoral Researcher',
+                    imageUrl: 'assets/img/img1.jpg',
+                    email: 'dkim@mit.edu',
+                    bio: 'David is studying the aggregation kinetics of amyloid proteins.'
+                },
+                {
+                    name: 'Emily Johnson',
+                    category: 'Undergraduate Students',
+                    imageUrl: 'assets/img/img2.jpg',
+                    email: 'ejohnson@mit.edu',
+                    bio: 'Emily is an undergraduate researcher assisting with protein purification.'
+                },
+                {
+                    name: 'James Wilson',
+                    category: 'Support Staff',
+                    imageUrl: 'assets/img/img3.jpg',
+                    email: 'jwilson@mit.edu',
+                    bio: 'James manages lab inventory and equipment maintenance.'
+                }
+            ];
+
             function buildImageUrl(imagePath) {
-                const placeholder = 'https://via.placeholder.com/400x400?text=No+Image';
-                if (!imagePath) return placeholder;
+                // Gray placeholder SVG data URI
+                const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23e2e8f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial, sans-serif\' font-size=\'24\' fill=\'%2364748b\' dy=\'.3em\' text-anchor=\'middle\'%3ENo Image%3C/text%3E%3C/svg%3E';
+
+                if (!imagePath) return PLACEHOLDER_IMAGE;
                 let trimmed = String(imagePath).trim();
 
+                // If it's already a full URL (http/https) or data URI, return as is
+                if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+                    return trimmed;
+                }
+
+                // If it's a local asset path (starts with assets/), return as is relative
+                // Also handle cases where spaces might not be encoded if passed dynamically
+                if (trimmed.startsWith('assets/')) {
+                    return trimmed;
+                }
+
+                // Otherwise, assume it's a relative path from the backend
                 // Replace localhost with remote URL if present
                 if (trimmed.includes('localhost:3000')) {
                     trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, 'https://lab-backend-awux.onrender.com/');
                 }
-
-                if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
 
                 const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
                 return `https://lab-backend-awux.onrender.com/${normalized}`;
@@ -323,6 +380,8 @@
             window.toggleBio = toggleBio;
 
             function createCard(member, bioId) {
+                const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23e2e8f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial, sans-serif\' font-size=\'24\' fill=\'%2364748b\' dy=\'.3em\' text-anchor=\'middle\'%3ENo Image%3C/text%3E%3C/svg%3E';
+
                 const emailLink = member.email
                     ? `<a href="mailto:${member.email}" class="jl-email-icon"><i class="fa-solid fa-envelope"></i></a>`
                     : '';
@@ -334,7 +393,7 @@
                 <div class="jl-member-card">
                     <div class="jl-image-wrapper">
                         <img src="${buildImageUrl(member.imageUrl)}" alt="${member.name}" class="jl-member-photo"
-                             onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+                             onerror="this.src='${PLACEHOLDER_IMAGE}'">
                     </div>
                     <div class="jl-member-info">
                         <h3 class="jl-member-name">${member.name}</h3>
@@ -367,58 +426,50 @@
                     showMessage(c, '<p class="text-muted">Loading members...</p>')
                 );
 
-                try {
-                    let res;
-                    let endpointUsed = '';
-                    for (const ep of ENDPOINTS) {
-                        endpointUsed = ep;
-                        res = await fetch(ep);
-                        if (res.ok) break;
-                    }
+                // DEMO MODE: Skipping API fetch and using local data directly
+                console.log("Using demo team data");
+                const members = FALLBACK_TEAM_DATA;
 
-                    if (!res || !res.ok) {
-                        throw new Error(`Failed to fetch team (last tried ${res ? res.status : 'no response'})`);
-                    }
+                // clear
+                Object.values(containers).forEach(c => {
+                    if (c) c.innerHTML = '';
+                });
 
-                    const json = await res.json();
-                    const members = extractMembers(json);
-
-                    // clear
-                    Object.values(containers).forEach(c => {
-                        if (c) c.innerHTML = '';
-                    });
-
-                    if (!members || members.length === 0) {
-                        Object.values(containers).forEach(c =>
-                            showMessage(c, '<p class="text-muted">No members found in this category.</p>')
-                        );
-                        return;
-                    }
-
-                    const counts = {};
-                    members.forEach((member, idx) => {
-                        const containerId = CATEGORY_IDS[member.category];
-                        const container = containers[containerId];
-                        if (!container) return;
-                        const bioId = `bio-${idx}`;
-                        container.insertAdjacentHTML('beforeend', createCard(member, bioId));
-                        counts[containerId] = (counts[containerId] || 0) + 1;
-                    });
-
-                    Object.entries(containers).forEach(([id, el]) => {
-                        if (!counts[id]) {
-                            showMessage(el, '<p class="text-muted">No members found in this category.</p>');
-                        }
-                    });
-                } catch (err) {
-                    console.error("ERROR fetching team:", err);
+                if (!members || members.length === 0) {
                     Object.values(containers).forEach(c =>
-                        showMessage(
-                            c,
-                            `<p class="text-danger">Failed to load team. ${err.message}</p>`
-                        )
+                        showMessage(c, '<p class="text-muted">No members found in this category.</p>')
                     );
+                    return;
                 }
+
+                const counts = {};
+                members.forEach((member, idx) => {
+                    const containerId = CATEGORY_IDS[member.category];
+                    // Fallback mechanism if category doesn't match exactly
+                    let finalContainerId = containerId;
+                    if (!finalContainerId) {
+                        // Try to find a default or map loosely
+                        if (member.category.includes('Principal')) finalContainerId = CATEGORY_IDS['Principal Investigator'];
+                        else if (member.category.includes('Senior')) finalContainerId = CATEGORY_IDS['Senior Scientist'];
+                        else if (member.category.includes('Postdoc')) finalContainerId = CATEGORY_IDS['Postdoctoral Researchers'];
+                        else if (member.category.includes('Doctoral') || member.category.includes('PhD')) finalContainerId = CATEGORY_IDS['Doctoral Researcher'];
+                        else if (member.category.includes('Undergrad')) finalContainerId = CATEGORY_IDS['Undergraduate Students'];
+                        else finalContainerId = CATEGORY_IDS['Support Staff'];
+                    }
+
+                    const container = containers[finalContainerId];
+                    if (!container) return;
+
+                    const bioId = `bio-${idx}`;
+                    container.insertAdjacentHTML('beforeend', createCard(member, bioId));
+                    counts[finalContainerId] = (counts[finalContainerId] || 0) + 1;
+                });
+
+                Object.entries(containers).forEach(([id, el]) => {
+                    if (!counts[id]) {
+                        showMessage(el, '<p class="text-muted">No members found in this category.</p>');
+                    }
+                });
             }
 
             loadTeam();

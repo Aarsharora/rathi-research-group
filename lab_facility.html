@@ -143,16 +143,22 @@
             const container = document.getElementById('facilityContainer');
 
             function buildImageUrl(imagePath) {
-                const placeholder = 'https://via.placeholder.com/800x500?text=No+Image'; // Larger placeholder for facilities
-                if (!imagePath) return placeholder;
+                // Gray placeholder SVG data URI
+                const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'900\' height=\'550\' viewBox=\'0 0 900 550\'%3E%3Crect width=\'900\' height=\'550\' fill=\'%23e2e8f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial, sans-serif\' font-size=\'30\' fill=\'%2364748b\' dy=\'.3em\' text-anchor=\'middle\'%3ENo Image%3C/text%3E%3C/svg%3E';
+
+                if (!imagePath) return PLACEHOLDER_IMAGE;
                 let trimmed = String(imagePath).trim();
+
+                // If local asset, or full URL, or data URI -> return as is
+                if (trimmed.startsWith('assets/') || /^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+                    return trimmed;
+                }
 
                 // Replace localhost with remote URL if present
                 if (trimmed.includes('localhost:3000')) {
                     trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, 'https://lab-backend-awux.onrender.com/');
                 }
 
-                if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
                 const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
                 return `https://lab-backend-awux.onrender.com/${normalized}`;
             }
@@ -195,12 +201,15 @@
 
                 console.log(`Rendering ${items.length} facilities`);
 
+                // Gray placeholder SVG data URI for onerror
+                const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'900\' height=\'550\' viewBox=\'0 0 900 550\'%3E%3Crect width=\'900\' height=\'550\' fill=\'%23e2e8f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial, sans-serif\' font-size=\'30\' fill=\'%2364748b\' dy=\'.3em\' text-anchor=\'middle\'%3ENo Image%3C/text%3E%3C/svg%3E';
+
                 const sections = items.map((item, idx) => `
                     <div class="facility-section animate">
                         <div class="facility-item-wrapper">
                             <div class="facility-image-box">
                                 <img src="${buildImageUrl(item.imageUrl)}" alt="${item.title || 'Facility image'}"
-                                     onerror="this.src='https://via.placeholder.com/900x550?text=No+Image'">
+                                     onerror="this.src='${PLACEHOLDER_IMAGE}'">
                             </div>
                             <div class="facility-text-content">
                                 <h3>${item.title || 'Untitled'}</h3>
@@ -218,25 +227,25 @@
                     _id: '1',
                     title: 'Advanced Microscopy Suite',
                     content: 'Our lab is equipped with state-of-the-art confocal and fluorescence microscopes for high-resolution imaging of cellular processes and protein localization.',
-                    imageUrl: 'assets/img/slider photos/IMG_3611.JPG'
+                    imageUrl: 'assets/img/slider%20photos/IMG_3611.JPG'
                 },
                 {
                     _id: '2',
                     title: 'Protein Purification System',
                     content: 'We utilize automated FPLC and HPLC systems for the purification and characterization of proteins and macromolecular complexes.',
-                    imageUrl: 'assets/img/slider photos/IMG_3633.JPG'
+                    imageUrl: 'assets/img/slider%20photos/IMG_3633.JPG'
                 },
                 {
                     _id: '3',
                     title: 'Cell Culture Facility',
                     content: 'Our dedicated cell culture room provides a sterile environment for mammalian cell line maintenance, transfection, and assay development.',
-                    imageUrl: 'assets/img/slider photos/IMG_3640.JPG'
+                    imageUrl: 'assets/img/slider%20photos/IMG_3640.JPG'
                 },
                 {
                     _id: '4',
                     title: 'Biophysical Characterization',
                     content: 'Instruments for circular dichroism (CD), dynamic light scattering (DLS), and isothermal titration calorimetry (ITC) allow us to study protein folding and interactions in detail.',
-                    imageUrl: 'assets/img/slider photos/IMG_3646.JPG'
+                    imageUrl: 'assets/img/slider%20photos/IMG_3646.JPG'
                 }
             ];
 
@@ -245,57 +254,10 @@
                     container.innerHTML = '<p class="text-center text-muted py-5">Loading facilities...</p>';
                 }
 
-                try {
-                    let res = null;
-                    let lastError = null;
-                    let endpointUsed = null;
+                console.log("Using demo facilities data");
+                const items = FALLBACK_DATA;
 
-                    for (const endpoint of ENDPOINTS) {
-                        try {
-                            console.log(`Trying endpoint: ${endpoint}`);
-                            const controller = new AbortController();
-                            const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
-
-                            res = await fetch(endpoint, { signal: controller.signal });
-                            clearTimeout(timeoutId);
-
-                            console.log(`Response from ${endpoint}:`, res.status, res.statusText);
-
-                            if (res.ok) {
-                                endpointUsed = endpoint;
-                                break;
-                            } else {
-                                lastError = new Error(`Server returned ${res.status}: ${res.statusText}`);
-                                console.warn(`Failed on ${endpoint}:`, res.status);
-                            }
-                        } catch (err) {
-                            console.warn(`Error with ${endpoint}:`, err.message);
-                            lastError = err;
-                        }
-                    }
-
-                    let items = [];
-
-                    if (res && res.ok) {
-                        console.log(`Successfully connected to: ${endpointUsed}`);
-                        const json = await res.json();
-                        items = extractArray(json);
-                    } else {
-                        console.warn('All API endpoints failed or returned error. Using fallback data.');
-                        items = FALLBACK_DATA;
-                    }
-
-                    console.log(`Rendering ${items.length} facilities`);
-
-                    if (items.length === 0) {
-                        items = FALLBACK_DATA; // Double check to ensure fallback is used if API returns empty array
-                    }
-
-                    renderFacilities(items);
-                } catch (err) {
-                    console.error('ERROR loading facilities, using fallback:', err);
-                    renderFacilities(FALLBACK_DATA);
-                }
+                renderFacilities(items);
             }
 
             loadFacilities();

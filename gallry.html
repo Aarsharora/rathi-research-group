@@ -161,8 +161,43 @@
         // Gallery API Integration
         // ==============================
 
-        const GALLERY_API_BASE = 'https://lab-backend-awux.onrender.com';
-        const GALLERY_ENDPOINTS = ['/gallery', '/api/gallery'];
+        const DEMO_GALLERY_DATA = [
+            {
+                id: 1,
+                category: 'lab',
+                image: 'assets/img/img4.jpg',
+                title: 'Lab Experiment',
+                description: 'Students working on protein analysis.'
+            },
+            {
+                id: 2,
+                category: 'team',
+                image: 'assets/img/team photos/IMG_20220617_153723.jpg',
+                title: 'Team Meeting',
+                description: 'Weekly group discussion on research progress.'
+            },
+            {
+                id: 3,
+                category: 'events',
+                image: 'assets/img/slider photos/IMG_3611.JPG',
+                title: 'Conference 2024',
+                description: 'Presentation at the International Biology Conference.'
+            },
+            {
+                id: 4,
+                category: 'lab',
+                image: 'assets/img/flask.png',
+                title: 'Equipment Setup',
+                description: 'New high-precision equipment installation.'
+            },
+            {
+                id: 5,
+                category: 'team',
+                image: 'assets/img/team photos/IMG_20220617_153748.jpg',
+                title: 'Field Work',
+                description: 'Collecting samples for environmental study.'
+            }
+        ];
 
         let galleryData = [];
         let currentFilter = 'all';
@@ -170,91 +205,31 @@
         let filteredImages = [];
 
         function buildImageUrl(imagePath) {
-            const placeholder = 'https://via.placeholder.com/800x600?text=No+Image';
-            if (!imagePath) return placeholder;
-            let trimmed = String(imagePath).trim();
+            // Gray placeholder SVG data URI
+            const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'600\' viewBox=\'0 0 800 600\'%3E%3Crect width=\'800\' height=\'600\' fill=\'%23e2e8f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-family=\'Arial, sans-serif\' font-size=\'24\' fill=\'%2364748b\' dy=\'.3em\' text-anchor=\'middle\'%3ENo Image%3C/text%3E%3C/svg%3E';
 
-            // Replace localhost with remote URL if present
-            if (trimmed.includes('localhost:3000')) {
-                trimmed = trimmed.replace(/http:\/\/localhost:3000\/?/g, GALLERY_API_BASE + '/');
+            if (!imagePath) return PLACEHOLDER_IMAGE;
+            const trimmed = String(imagePath).trim();
+
+            // If local asset or data URI or external URL, return as is
+            if (trimmed.startsWith('assets/') || trimmed.startsWith('data:') || trimmed.startsWith('http')) {
+                return trimmed;
             }
-
-            if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) return trimmed;
-            const normalized = trimmed.replace(/\\/g, '/').replace(/^\/+/, '');
-            return `${GALLERY_API_BASE}/${normalized}`;
+            return trimmed;
         }
 
         async function loadGalleryFromApi() {
             const grid = document.getElementById('galleryGrid');
 
-            grid.innerHTML = `
-                <div class="gallery-loading">
-                    <p>Loading gallery...</p>
-                </div>
-            `;
+            // USE DEMO DATA
+            console.log("Loading demo gallery data");
+            galleryData = DEMO_GALLERY_DATA.map(item => ({
+                ...item,
+                image: buildImageUrl(item.image)
+            }));
 
-            let lastError = null;
-
-            for (const endpoint of GALLERY_ENDPOINTS) {
-                try {
-                    const url = `${GALLERY_API_BASE}${endpoint}`;
-                    console.log('Trying gallery endpoint:', url);
-
-                    const res = await fetch(url);
-
-                    if (!res.ok) {
-                        lastError = new Error(`HTTP ${res.status} ${res.statusText}`);
-                        continue;
-                    }
-
-                    const data = await res.json();
-                    console.log('Gallery API raw data:', data);
-
-                    let items = [];
-
-                    if (Array.isArray(data)) {
-                        items = data;
-                    } else if (data && typeof data === 'object') {
-                        if (Array.isArray(data.data)) items = data.data;
-                        else if (Array.isArray(data.gallery)) items = data.gallery;
-                        else if (Array.isArray(data.items)) items = data.items;
-                        else if (Array.isArray(data.result)) items = data.result;
-                    }
-
-                    if (!Array.isArray(items) || items.length === 0) {
-                        throw new Error('Gallery API returned no items');
-                    }
-
-                    // Normalize items to match our UI structure
-                    galleryData = items.map((item, index) => ({
-                        id: item.id || item._id || index + 1,
-                        category: item.category || 'lab',
-                        image: buildImageUrl(item.imageUrl || item.image || item.url),
-                        title: item.title || 'Untitled Image',
-                        description: item.description || item.caption || 'No description available.'
-                    }));
-
-                    filteredImages = [...galleryData];
-                    renderGallery(filteredImages);
-                    return;
-                } catch (err) {
-                    console.error('Gallery API error for endpoint', endpoint, err);
-                    lastError = err;
-                }
-            }
-
-            // If we reach here, all endpoints failed
-            const errorMessage = lastError ? lastError.message : 'Unknown error';
-            grid.innerHTML = `
-                <div class="gallery-error">
-                    <p>Failed to load gallery from API.</p>
-                    <p style="font-size: 0.9rem; color: #888;">Error: ${errorMessage}</p>
-                    <p style="font-size: 0.85rem; color: #aaa;">
-                        Please check that the gallery API is running on <strong>${GALLERY_API_BASE}</strong>
-                        and that it exposes <code>/gallery</code> or <code>/api/gallery</code> endpoints.
-                    </p>
-                </div>
-            `;
+            filteredImages = [...galleryData];
+            renderGallery(filteredImages);
         }
 
         // Render gallery items
