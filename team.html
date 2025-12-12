@@ -426,9 +426,32 @@
                     showMessage(c, '<p class="text-muted">Loading members...</p>')
                 );
 
-                // DEMO MODE: Skipping API fetch and using local data directly
-                console.log("Using demo team data");
-                const members = FALLBACK_TEAM_DATA;
+                let members = [];
+                try {
+                    let result = null;
+                    // Try endpoints until one works
+                    for (const endpoint of ENDPOINTS) {
+                        try {
+                            const res = await fetch(endpoint);
+                            if (res.ok) {
+                                result = await res.json();
+                                break;
+                            }
+                        } catch (e) {
+                            console.warn(`Failed to fetch from ${endpoint}`, e);
+                        }
+                    }
+
+                    if (result) {
+                        members = extractMembers(result);
+                    } else {
+                        throw new Error("All endpoints failed");
+                    }
+                } catch (error) {
+                    console.error("Error loading team:", error);
+                    console.log("Falling back to demo data");
+                    members = FALLBACK_TEAM_DATA;
+                }
 
                 // clear
                 Object.values(containers).forEach(c => {
@@ -437,23 +460,25 @@
 
                 if (!members || members.length === 0) {
                     Object.values(containers).forEach(c =>
-                        showMessage(c, '<p class="text-muted">No members found in this category.</p>')
+                        showMessage(c, '<p class="text-muted">No members found.</p>')
                     );
                     return;
                 }
 
                 const counts = {};
                 members.forEach((member, idx) => {
-                    const containerId = CATEGORY_IDS[member.category];
+                    const category = member.category || 'Support Staff';
+                    const containerId = CATEGORY_IDS[category];
+
                     // Fallback mechanism if category doesn't match exactly
                     let finalContainerId = containerId;
                     if (!finalContainerId) {
                         // Try to find a default or map loosely
-                        if (member.category.includes('Principal')) finalContainerId = CATEGORY_IDS['Principal Investigator'];
-                        else if (member.category.includes('Senior')) finalContainerId = CATEGORY_IDS['Senior Scientist'];
-                        else if (member.category.includes('Postdoc')) finalContainerId = CATEGORY_IDS['Postdoctoral Researchers'];
-                        else if (member.category.includes('Doctoral') || member.category.includes('PhD')) finalContainerId = CATEGORY_IDS['Doctoral Researcher'];
-                        else if (member.category.includes('Undergrad')) finalContainerId = CATEGORY_IDS['Undergraduate Students'];
+                        if (category.includes('Principal')) finalContainerId = CATEGORY_IDS['Principal Investigator'];
+                        else if (category.includes('Senior')) finalContainerId = CATEGORY_IDS['Senior Scientist'];
+                        else if (category.includes('Postdoc')) finalContainerId = CATEGORY_IDS['Postdoctoral Researchers'];
+                        else if (category.includes('Doctoral') || category.includes('PhD')) finalContainerId = CATEGORY_IDS['Doctoral Researcher'];
+                        else if (category.includes('Undergrad')) finalContainerId = CATEGORY_IDS['Undergraduate Students'];
                         else finalContainerId = CATEGORY_IDS['Support Staff'];
                     }
 
@@ -461,7 +486,11 @@
                     if (!container) return;
 
                     const bioId = `bio-${idx}`;
-                    container.insertAdjacentHTML('beforeend', createCard(member, bioId));
+                    // Ensure imageUrl is processed
+                    const imageUrl = buildImageUrl(member.imageUrl);
+                    const memberWithProcessedImage = { ...member, imageUrl };
+
+                    container.insertAdjacentHTML('beforeend', createCard(memberWithProcessedImage, bioId));
                     counts[finalContainerId] = (counts[finalContainerId] || 0) + 1;
                 });
 

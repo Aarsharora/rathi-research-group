@@ -218,12 +218,56 @@
             return trimmed;
         }
 
+        const ENDPOINTS = [
+            'https://lab-backend-awux.onrender.com/gallery',
+            'https://lab-backend-awux.onrender.com/api/gallery',
+            'https://lab-backend-awux.onrender.com/galleries',
+            'https://lab-backend-awux.onrender.com/api/galleries'
+        ];
+
         async function loadGalleryFromApi() {
             const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '<div class="gallery-loading"><p>Loading gallery images...</p></div>';
 
-            // USE DEMO DATA
-            console.log("Loading demo gallery data");
-            galleryData = DEMO_GALLERY_DATA.map(item => ({
+            try {
+                let result = null;
+                // Try endpoints until one works
+                for (const endpoint of ENDPOINTS) {
+                    try {
+                        const res = await fetch(endpoint);
+                        if (res.ok) {
+                            result = await res.json();
+                            break;
+                        }
+                    } catch (e) {
+                        console.warn(`Failed to fetch from ${endpoint}`, e);
+                    }
+                }
+
+                if (result) {
+                    // Handle different response structures
+                    if (Array.isArray(result)) {
+                        galleryData = result;
+                    } else if (result.data && Array.isArray(result.data)) {
+                        galleryData = result.data;
+                    } else if (result.gallery && Array.isArray(result.gallery)) {
+                        galleryData = result.gallery;
+                    } else if (result.images && Array.isArray(result.images)) {
+                        galleryData = result.images;
+                    } else {
+                        galleryData = [];
+                    }
+                } else {
+                    throw new Error("All gallery endpoints failed");
+                }
+            } catch (error) {
+                console.error("Error loading gallery:", error);
+                console.log("Falling back to demo data");
+                galleryData = DEMO_GALLERY_DATA;
+            }
+
+            // Process images
+            galleryData = galleryData.map(item => ({
                 ...item,
                 image: buildImageUrl(item.image)
             }));
